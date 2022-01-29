@@ -185,49 +185,6 @@ class BoolGrid:
         return result + "┗" + "━"*self.__width*2 + "┛"
 
 
-class GridPrinter:
-    # __SYMBOL = ["  ", "\u001b[38;5;6m██\u001b[0m"]
-    __SYMBOL = ["  ", "██"]
-
-    title = ""
-
-    def __init__(self, delay: float =0, wait: bool =False):
-        """
-        Args:
-            delay (float): The delay in seconds after each screen update.
-            wait (bool): Whether to wait after each or not. If set to True, there is no delay anymore.
-        """
-        self.stdscr = curses.initscr()
-        curses.noecho()
-        curses.cbreak()
-        curses.curs_set(0)  # hide cursor
-        self.stdscr.keypad(True)
-
-        # delay after a screen update
-        self.__delay = float(delay)
-        # wether to wait after each screen update or not
-        self.__wait = bool(wait)
-        if self.__wait:  # if you wait, there is no delay
-            self.__delay = 0
-
-    def terminate(self):
-        curses.nocbreak()
-        self.stdscr.keypad(False)
-        curses.echo()
-        curses.endwin()
-
-    def __call__(self, grid):
-        self.stdscr.clear()
-        for y in range(grid.get_height()):
-            for x in range(grid.get_width()):
-                self.stdscr.addstr(y, x*2,
-                        self.__SYMBOL[grid[y][x]])
-        self.stdscr.addstr(0, 0, str(self.title))
-        self.stdscr.refresh()
-        sleep(self.__delay)
-        if self.__wait:
-            self.stdscr.getkey()
-
 
 
 if __name__ == "__main__":

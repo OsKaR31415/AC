@@ -187,5 +187,6 @@ if __name__ == "__main__":
     grid.randomize(.3, 1)
     grid.randomize(.3, 2)
     printer(grid)
+    print(grid.get_grid())
 
 
