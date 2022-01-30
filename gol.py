@@ -1,5 +1,5 @@
 from random import randint, choice
-from BoolGrid import import BoolGrid
+from BoolGrid import BoolGrid
 from grid_printer import *
 import gol_figures
 from os import get_terminal_size
