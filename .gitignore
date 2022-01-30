@@ -1,3 +1,4 @@
 
 *.swp
 .grid_printer.py.swo
+__pycache__/BoolGrid.cpython-39.pyc
