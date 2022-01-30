@@ -5,19 +5,14 @@ from os import system, get_terminal_size
 import curses
 
 
-@np.vectorize
-def cell_to_str(cell: bool) -> str:
-    return "██" if cell else "  "
-
-
 def show_grid(stdscr, grid: list[list[bool]]) -> None:
-    stdscr.clear()
+    stdscr.erase()
     x, y = 0, 0
     width = len(grid)
     for y in range(len(grid)):
         for x in range(len(grid[0])):
-            stdscr.addstr(y, x*2, "██" if grid[y][x] else "  ")
-            # stdscr.refresh()
+            if grid[y][x]:
+                stdscr.addstr(y, x*2, "██")
     stdscr.refresh()
 
 
@@ -67,16 +62,20 @@ def random_bool(*args) -> bool:
 
 
 def main(stdscr):
+    # Initialize width and height
     WIDTH, HEIGHT = get_terminal_size()
-    WIDTH = get_terminal_size().columns // 2 -1
+    WIDTH = get_terminal_size().columns // 2 - 1
     HEIGHT = get_terminal_size().lines
+
     grid = np.empty((HEIGHT, WIDTH), dtype=bool)
     grid = random_bool(grid)
+    DELAY = 0.000005*WIDTH*HEIGHT
+    show_grid(stdscr, grid)
     while True:
         previous_update_time = time()
-        while time() - previous_update_time < 0.3:
-            grid = rule(grid)
+        grid = rule(grid)
         show_grid(stdscr, grid)
+        # sleep(DELAY)
 
 if __name__ == "__main__":
     curses.wrapper(main)
