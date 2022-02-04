@@ -6,6 +6,10 @@ from os import system
 from copy import deepcopy
 from time import time
 import curses
+import culour
+from colors import Color
+
+COLOR = Color()
 
 global generation
 generation = 0
@@ -21,7 +25,7 @@ class Cell:
         return (x + self.speed[0], y + self.speed[1])
 
     def __str__(self):
-        return "██" if self.alive else "  "
+        return COLOR(int(str(id(self))[-2:]), "██") if self.alive else "  "
 
     def invert_speed(self):
         inverted = (-self.speed[0], -self.speed[1])
@@ -46,7 +50,7 @@ def random_grid(width: int,
     grid = [
             [
                 Cell(random_bool(probability),
-                     speed=(random_speed(-3, 4)))
+                     speed=(random_speed(-2, 3)))
                 for _ in range(width)]
             for _ in range(height)]
     return grid
@@ -56,9 +60,18 @@ def aff_grid(stdscr, grid: list[list[Cell]]) -> None:
     stdscr.clear()
     for y, line in enumerate(grid):
         for x, cell in enumerate(line):
-            stdscr.addstr(y, x*2, str(cell))
+            culour.addstr(stdscr, y, x*2, str(cell))
+            # stdscr.addstr(y, x*2, str(cell))
     stdscr.addstr(0, 0, str(generation))
     stdscr.refresh()
+
+def print_grid(grid: list[list[Cell]]) -> None:
+    system("clear")
+    for line in grid:
+        for cell in line:
+            print(cell, end='')
+        print()
+
 
 def update_cell(x: int, y: int, grid: list[list[Cell]]) -> list[list[Cell]]:
     new_y, new_x = (grid[y][x]).new_position(y, x)
@@ -86,14 +99,14 @@ def main(stdscr):
     global generation
     width, height = get_terminal_size()
     width, height = width//2, height-1
-    grid = random_grid(width, height, probability=.03)
+    grid = random_grid(width, height, probability=.05)
     while True:
         previous_time = time()
-        aff_grid(stdscr, grid)
-        while time() - previous_time < 1:
+        print_grid(grid)
+        while time() - previous_time < .05:
             grid = next_grid(grid)
             generation += 1
-            sleep(0.00001)
+        sleep(0.1)
         # input()
 
 
