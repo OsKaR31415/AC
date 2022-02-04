@@ -40,7 +40,8 @@ def main():
         previous_grids = [None]*20  # 20 so 20 grids are stored
         while grid not in previous_grids:
             time_stamp = time()
-            while time() - time_stamp < 0.5:
+            # while time() - time_stamp < 0.5:
+            while time_stamp == time():
                 grid_before_screen_update = grid
                 generation += 1
                 # change the remembered grids (remove the oldest one and append
