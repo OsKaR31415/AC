@@ -75,7 +75,7 @@ def main(stdscr):
         previous_update_time = time()
         grid = rule(grid)
         show_grid(stdscr, grid)
-        sleep(0.1)
+        sleep(0.005)
 
 if __name__ == "__main__":
     curses.wrapper(main)
