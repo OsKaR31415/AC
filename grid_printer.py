@@ -42,7 +42,7 @@ class GridPrinter:
         return self.stdscr.getkey()
 
     def __call__(self, grid):
-        self.stdscr.clear()
+        self.stdscr.erase()
         for y in range(grid.get_height()):
             for x in range(grid.get_width()):
                 current_cell = grid[y][x]
